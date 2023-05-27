@@ -81,148 +81,152 @@ const Home = () => {
   return (
     <div className="container">
       <div className="main_container">
-        {/* ------------------ Source ------------------ */}
-        <div className="source">
-          <h1 className="header">Source</h1>
-          <input
-            type="radio"
-            id="bigrams"
-            name="source"
-            value="Bigrams"
-            onClick={getRadioText}
-          />
-          <label>Bigrams</label>
-          <br></br>
-          <input
-            type="radio"
-            id="trigrams"
-            name="source"
-            value="Trigrams"
-            onClick={getRadioText}
-          />
-          <label>Trigrams</label>
-          <br></br>
-          <input
-            type="radio"
-            id="tetragrams"
-            name="source"
-            value="Tetragrams"
-            onClick={getRadioText}
-          />
-          <label>Tetragrams</label>
-          <br></br>
-          <input
-            type="radio"
-            id="words"
-            name="source"
-            value="Words"
-            onClick={getRadioText}
-          />
-          <label>Words</label>
-          <br></br>
-          <input
-            type="radio"
-            id="custom"
-            name="source"
-            value="Custom"
-            onClick={getRadioText}
-          />
-          <label>Custom</label>
-          <br></br>
-        </div>
-
-        {/* --------------------- Scope ------------------- */}
-        <div className="scope">
-          <h1 className="header">Scope</h1>
-          <input
-            type="radio"
-            id="top50"
-            name="scope"
-            value="Top 50"
-            onClick={getRadioText}
-          />
-          <label>Top 50</label>
-          <br></br>
-          <input
-            type="radio"
-            id="top100"
-            name="scope"
-            value="Top 100"
-            onClick={getRadioText}
-          />
-          <label>Top 100</label>
-          <br></br>
-          <input
-            type="radio"
-            id="top150"
-            name="scope"
-            value="Top 150"
-            onClick={getRadioText}
-          />
-          <label>Top 150</label>
-          <br></br>
-          <input
-            type="radio"
-            id="top200"
-            name="scope"
-            value="Top 200"
-            onClick={getRadioText}
-          />
-          <label>Top 200</label>
-          <br></br>
-        </div>
-
-        {/* --------------------------- Generator ----------------------- */}
-        <div className="generator">
-          <h1 className="header">Generator</h1>
-          <div className="combination">
-            <label>Combination</label>
+        <din className="first">
+          {/* ------------------ Source ------------------ */}
+          <div className="source">
+            <h1 className="header">Source</h1>
             <input
-              type="number"
-              name="combination"
-              value={combinator}
-              onChange={(e) => setCombinator(e.target.value)}
+              type="radio"
+              id="bigrams"
+              name="source"
+              value="Bigrams"
+              onClick={getRadioText}
             />
+            <label>Bigrams</label>
+            <br></br>
+            <input
+              type="radio"
+              id="trigrams"
+              name="source"
+              value="Trigrams"
+              onClick={getRadioText}
+            />
+            <label>Trigrams</label>
+            <br></br>
+            <input
+              type="radio"
+              id="tetragrams"
+              name="source"
+              value="Tetragrams"
+              onClick={getRadioText}
+            />
+            <label>Tetragrams</label>
+            <br></br>
+            <input
+              type="radio"
+              id="words"
+              name="source"
+              value="Words"
+              onClick={getRadioText}
+            />
+            <label>Words</label>
+            <br></br>
+            <input
+              type="radio"
+              id="custom"
+              name="source"
+              value="Custom"
+              onClick={getRadioText}
+            />
+            <label>Custom</label>
+            <br></br>
           </div>
-          <div className="repetition">
-            <label>Repetition</label>
-            <input
-              type="number"
-              name="repetition"
-              value={repitator}
-              onChange={(e) => setRepitator(e.target.value)}
-            />
-          </div>
-        </div>
 
-        {/* --------------------------- Threshold --------------------- */}
-        <div className="threshold">
-          <h1 className="header">Threshold</h1>
-          <div className="wpm">
-            <label>WPM</label>
+          {/* --------------------- Scope ------------------- */}
+          <div className="scope">
+            <h1 className="header">Scope</h1>
             <input
-              type="number"
-              name="wpm"
-              id="wpmText"
-              value={wpm}
-              onChange={(e) => setWPM(e.target.value)}
+              type="radio"
+              id="top50"
+              name="scope"
+              value="Top 50"
+              onClick={getRadioText}
             />
+            <label>Top 50</label>
+            <br></br>
+            <input
+              type="radio"
+              id="top100"
+              name="scope"
+              value="Top 100"
+              onClick={getRadioText}
+            />
+            <label>Top 100</label>
+            <br></br>
+            <input
+              type="radio"
+              id="top150"
+              name="scope"
+              value="Top 150"
+              onClick={getRadioText}
+            />
+            <label>Top 150</label>
+            <br></br>
+            <input
+              type="radio"
+              id="top200"
+              name="scope"
+              value="Top 200"
+              onClick={getRadioText}
+            />
+            <label>Top 200</label>
+            <br></br>
           </div>
-          <div className="accuracy">
-            <label>Accuracy</label>
-            <input
-              type="number"
-              name="accuracy"
-              id="accuracyText"
-              value={accuracy}
-              onChange={(e) => setAccuracy(e.target.value)}
-            />
+        </din>
+
+        <div className="second">
+          {/* --------------------------- Generator ----------------------- */}
+          <div className="generator">
+            <h1 className="header">Generator</h1>
+            <div className="combination">
+              <label>Combination</label>
+              <input
+                type="number"
+                name="combination"
+                value={combinator}
+                onChange={(e) => setCombinator(e.target.value)}
+              />
+            </div>
+            <div className="repetition">
+              <label>Repetition</label>
+              <input
+                type="number"
+                name="repetition"
+                value={repitator}
+                onChange={(e) => setRepitator(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* --------------------------- Threshold --------------------- */}
+          <div className="threshold">
+            <h1 className="header">Threshold</h1>
+            <div className="wpm">
+              <label>WPM</label>
+              <input
+                type="number"
+                name="wpm"
+                id="wpmText"
+                value={wpm}
+                onChange={(e) => setWPM(e.target.value)}
+              />
+            </div>
+            <div className="accuracy">
+              <label>Accuracy</label>
+              <input
+                type="number"
+                name="accuracy"
+                id="accuracyText"
+                value={accuracy}
+                onChange={(e) => setAccuracy(e.target.value)}
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* ---------------------- Second Container --------------------- */}
-      <h1>Lesson 1/13</h1>
+      <h1 className="header">Lesson 1/13</h1>
 
       {/* ------------------- Random text  --------------------- */}
       <div className="random">
