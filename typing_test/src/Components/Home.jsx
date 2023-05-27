@@ -1,16 +1,27 @@
-import React, { useState } from "react";
 import "../styles/Home.css";
 import Stats from "./Stats";
 import TypingBox from "./TypingBox";
+import React, { useState } from "react";
 
 const Home = () => {
   const str = "asdfjkl";
   let final_text = "";
   let last_final_text = "";
-  const [combinator, setCombinator] = useState(2);
+
+  const [wpm, setWPM] = useState(0);
+  const [showText, setShowText] = useState("");
+  const [accuracy, setAccuracy] = useState(0);
   const [repitator, setRepitator] = useState(3);
-  const [wpm, setWPM] = useState(50);
-  const [accuracy, setAccuracy] = useState(100);
+  const [combinator, setCombinator] = useState(2);
+
+  // ------------------ Function for WPM and Accuracy settings ---------------------
+  const handleWpm = (value) => {
+    setWPM(value);
+  };
+
+  const handleAccuracy = (value) => {
+    setAccuracy(value);
+  };
 
   // ------------ Function for shuffle the string -----------------
   const shuffleStr = (str) => {
@@ -21,6 +32,7 @@ const Home = () => {
       str[i] = str[j];
       str[j] = temp;
     }
+
     let shuffledString = str.join("");
     return shuffledString;
   };
@@ -34,16 +46,37 @@ const Home = () => {
         Math.floor(Math.random() * shuffled_string.length)
       );
     }
-    // console.log(result);
+
     final_text = final_text + result + " ";
   }
-  // console.log(final_text);
 
   // -------------------- Getting text by repitation ------------------
   for (let i = 0; i < repitator; i++) {
     last_final_text = last_final_text + final_text;
   }
-  // console.log(last_final_text);
+
+  // ----------------- Function for selecting any radio and generating text --------------------
+  const getRadioText = () => {
+    final_text = "";
+    last_final_text = "";
+    for (let j = 0; j < combinator; j++) {
+      let result = "";
+      for (let i = 0; i < 2; i++) {
+        let shuffled_string = shuffleStr(str);
+        result += shuffled_string.charAt(
+          Math.floor(Math.random() * shuffled_string.length)
+        );
+      }
+
+      final_text = final_text + result + " ";
+    }
+
+    for (let i = 0; i < repitator; i++) {
+      last_final_text = last_final_text + final_text;
+    }
+
+    setShowText(last_final_text);
+  };
 
   return (
     <div className="container">
@@ -53,14 +86,20 @@ const Home = () => {
           <h1 className="header">Source</h1>
           <input
             type="radio"
-            checked
             id="bigrams"
             name="source"
             value="Bigrams"
+            onClick={getRadioText}
           />
           <label>Bigrams</label>
           <br></br>
-          <input type="radio" id="trigrams" name="source" value="Trigrams" />
+          <input
+            type="radio"
+            id="trigrams"
+            name="source"
+            value="Trigrams"
+            onClick={getRadioText}
+          />
           <label>Trigrams</label>
           <br></br>
           <input
@@ -68,13 +107,26 @@ const Home = () => {
             id="tetragrams"
             name="source"
             value="Tetragrams"
+            onClick={getRadioText}
           />
           <label>Tetragrams</label>
           <br></br>
-          <input type="radio" id="words" name="source" value="Words" />
+          <input
+            type="radio"
+            id="words"
+            name="source"
+            value="Words"
+            onClick={getRadioText}
+          />
           <label>Words</label>
           <br></br>
-          <input type="radio" id="custom" name="source" value="Custom" />
+          <input
+            type="radio"
+            id="custom"
+            name="source"
+            value="Custom"
+            onClick={getRadioText}
+          />
           <label>Custom</label>
           <br></br>
         </div>
@@ -82,16 +134,40 @@ const Home = () => {
         {/* --------------------- Scope ------------------- */}
         <div className="scope">
           <h1 className="header">Scope</h1>
-          <input type="radio" checked id="top50" name="scope" value="Top 50" />
+          <input
+            type="radio"
+            id="top50"
+            name="scope"
+            value="Top 50"
+            onClick={getRadioText}
+          />
           <label>Top 50</label>
           <br></br>
-          <input type="radio" id="top100" name="scope" value="Top 100" />
+          <input
+            type="radio"
+            id="top100"
+            name="scope"
+            value="Top 100"
+            onClick={getRadioText}
+          />
           <label>Top 100</label>
           <br></br>
-          <input type="radio" id="top150" name="scope" value="Top 150" />
+          <input
+            type="radio"
+            id="top150"
+            name="scope"
+            value="Top 150"
+            onClick={getRadioText}
+          />
           <label>Top 150</label>
           <br></br>
-          <input type="radio" id="top200" name="scope" value="Top 200" />
+          <input
+            type="radio"
+            id="top200"
+            name="scope"
+            value="Top 200"
+            onClick={getRadioText}
+          />
           <label>Top 200</label>
           <br></br>
         </div>
@@ -150,14 +226,18 @@ const Home = () => {
 
       {/* ------------------- Random text  --------------------- */}
       <div className="random">
-        <h1>{last_final_text}</h1>
+        <h1>{showText ? showText : last_final_text}</h1>
       </div>
 
       {/* ------------------------ Input Box ------------------------- */}
-      <TypingBox last_final_text={last_final_text} />
+      <TypingBox
+        last_final_text={last_final_text}
+        onWpmChange={handleWpm}
+        onAccuracyChange={handleAccuracy}
+      />
 
       {/* --------------------- Final Result ---------------------- */}
-      <Stats />
+      <Stats wpm={wpm} accuracy={accuracy} />
     </div>
   );
 };

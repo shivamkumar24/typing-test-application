@@ -1,11 +1,11 @@
 import React from "react";
 import "../styles/Stats.css";
 
-const Stats = () => {
+const Stats = ({ wpm, accuracy }) => {
   return (
     <div className="finalResult">
-      <p>WPM: 0</p>
-      <p>Accuracy: 0 %</p>
+      <p>WPM: {wpm}</p>
+      <p>Accuracy: {accuracy} %</p>
       <p>Average WPM: 51</p>
     </div>
   );

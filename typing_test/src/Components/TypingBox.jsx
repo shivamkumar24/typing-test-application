@@ -1,12 +1,13 @@
-import React, { useRef, useState } from "react";
 import "../styles/TypingBox.css";
+import React, { useRef, useState } from "react";
 
-const TypingBox = ({ last_final_text }) => {
-  var startTime, endTime;
+const TypingBox = ({ last_final_text, onWpmChange, onAccuracyChange }) => {
   const ref = useRef();
-  const [userText, setUserText] = useState("");
+  var startTime, endTime;
   const systemText = last_final_text;
+  const [userText, setUserText] = useState("");
 
+  // ------------------ getting Start and End Time -----------------
   const getStartTime = () => {
     if (!startTime) {
       startTime = new Date().getTime();
@@ -14,6 +15,7 @@ const TypingBox = ({ last_final_text }) => {
   };
 
   const getEndTime = (e) => {
+    setUserText(e.target.value);
     if (e.target.value === systemText) {
       endTime = new Date().getTime();
       calculateTypingSpeed();
@@ -22,13 +24,12 @@ const TypingBox = ({ last_final_text }) => {
 
   // ------------------ Function for check typing Speed -------------------
   const calculateTypingSpeed = () => {
-    const totalTime = (endTime - startTime) / 1000;
     const systemTextLength = systemText.length;
+    const totalTime = (endTime - startTime) / 1000;
     const typingSpeed = Math.round((systemTextLength / totalTime) * 60);
 
-    console.log(
-      "Your typing speed is: " + typingSpeed + " characters per minute."
-    );
+    onWpmChange(typingSpeed);
+
     calculateTypingAccuracy(systemText, userText);
   };
 
@@ -42,18 +43,17 @@ const TypingBox = ({ last_final_text }) => {
     }
 
     let accuracy = (correct / systemText.length) * 100;
-    console.log(accuracy.toFixed(2));
+    onAccuracyChange(accuracy.toFixed(2));
   };
 
   return (
     <div className="userInput">
       <input
-        id="userInput"
-        type="text"
         ref={ref}
+        type="text"
+        id="userInput"
         onKeyDown={getStartTime}
         onKeyUp={(e) => getEndTime(e)}
-        // onChange={(e) => setUserText(e.target.value)}
         placeholder="Re-type if failed,press <TAB> or <ESC> to reset"
       />
     </div>
