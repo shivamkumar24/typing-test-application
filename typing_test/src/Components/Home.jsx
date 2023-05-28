@@ -1,7 +1,7 @@
 import "../styles/Home.css";
 import Stats from "./Stats";
 import TypingBox from "./TypingBox";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
   const str = "asdfjkl";
@@ -13,6 +13,33 @@ const Home = () => {
   const [accuracy, setAccuracy] = useState(0);
   const [repitator, setRepitator] = useState(3);
   const [combinator, setCombinator] = useState(2);
+  const [chapter, setChapter] = useState(1);
+  const [time, setTime] = useState(10);
+  const [fivewpm, setFiveWPM] = useState(0);
+  const [lastText, setLastText] = useState("");
+  const [result, setResult] = useState("");
+
+  // ------------------- Result--------------
+  // const getResult = () => {
+  //   if (accuracy !== 100 && accuracy !== 0) {
+  //     setResult("You need improve your typing with correctness.....");
+  //   } else {
+  //     setResult("Congratulations, You typed 100% correctly .....");
+  //   }
+  // };
+
+  const getTimeOut = () => {
+    const getOut = setTimeout(() => {
+      setTime(time - 1);
+    }, 1000);
+
+    if (time === 0) {
+      clearTimeout(getOut);
+      // getResult();
+    }
+  };
+
+  getTimeOut();
 
   // ------------------ Function for WPM and Accuracy settings ---------------------
   const handleWpm = (value) => {
@@ -21,6 +48,15 @@ const Home = () => {
 
   const handleAccuracy = (value) => {
     setAccuracy(value);
+  };
+
+  const handleChapter = () => {
+    console.log(chapter);
+    setChapter((prev) => prev + 1);
+  };
+
+  const handleKeyPress = () => {
+    setFiveWPM((prev) => prev + 1);
   };
 
   // ------------ Function for shuffle the string -----------------
@@ -48,12 +84,21 @@ const Home = () => {
     }
 
     final_text = final_text + result + " ";
+    // console.log("combi", final_text);
   }
 
   // -------------------- Getting text by repitation ------------------
-  for (let i = 0; i < repitator; i++) {
-    last_final_text = last_final_text + final_text;
-  }
+  const generateRepitarText = () => {
+    for (let i = 0; i < repitator; i++) {
+      last_final_text = last_final_text + final_text;
+      // console.log("repitor", last_final_text);
+      setLastText(last_final_text);
+    }
+  };
+
+  useEffect(() => {
+    generateRepitarText();
+  }, []);
 
   // ----------------- Function for selecting any radio and generating text --------------------
   const getRadioText = () => {
@@ -67,14 +112,12 @@ const Home = () => {
           Math.floor(Math.random() * shuffled_string.length)
         );
       }
-
       final_text = final_text + result + " ";
     }
 
     for (let i = 0; i < repitator; i++) {
       last_final_text = last_final_text + final_text;
     }
-
     setShowText(last_final_text);
   };
 
@@ -225,23 +268,41 @@ const Home = () => {
         </div>
       </div>
 
+      <div
+        style={{
+          width: "80%",
+          margin: "auto",
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "space-around",
+        }}
+      >
+        <h1>Time: {time} sec</h1>
+        <h1>Word: {fivewpm}</h1>
+      </div>
+
       {/* ---------------------- Second Container --------------------- */}
-      <h1 className="header">Lesson 1/13</h1>
+      <h1 className="header">Lesson {chapter}</h1>
 
       {/* ------------------- Random text  --------------------- */}
       <div className="random">
-        <h1>{showText ? showText : last_final_text}</h1>
+        <h1>{showText ? showText : lastText}</h1>
       </div>
 
       {/* ------------------------ Input Box ------------------------- */}
       <TypingBox
-        last_final_text={last_final_text}
+        lastText={lastText}
         onWpmChange={handleWpm}
         onAccuracyChange={handleAccuracy}
+        getRadioText={getRadioText}
+        handleChapter={handleChapter}
+        handleKeyPress={handleKeyPress}
       />
 
       {/* --------------------- Final Result ---------------------- */}
       <Stats wpm={wpm} accuracy={accuracy} />
+
+      <h1>{result}</h1>
     </div>
   );
 };

@@ -1,10 +1,18 @@
 import "../styles/TypingBox.css";
 import React, { useRef, useState } from "react";
 
-const TypingBox = ({ last_final_text, onWpmChange, onAccuracyChange }) => {
+const TypingBox = ({
+  lastText,
+  onWpmChange,
+  onAccuracyChange,
+  getRadioText,
+  handleChapter,
+  handleKeyPress,
+}) => {
   const ref = useRef();
   var startTime, endTime;
-  const systemText = last_final_text;
+  const systemText = lastText;
+
   const [userText, setUserText] = useState("");
 
   // ------------------ getting Start and End Time -----------------
@@ -19,6 +27,8 @@ const TypingBox = ({ last_final_text, onWpmChange, onAccuracyChange }) => {
     if (e.target.value === systemText) {
       endTime = new Date().getTime();
       calculateTypingSpeed();
+      getRadioText();
+      handleChapter();
     }
   };
 
@@ -46,6 +56,11 @@ const TypingBox = ({ last_final_text, onWpmChange, onAccuracyChange }) => {
     onAccuracyChange(accuracy.toFixed(2));
   };
 
+  const handlekeyUp = (e) => {
+    getEndTime(e);
+    handleKeyPress();
+  };
+
   return (
     <div className="userInput">
       <input
@@ -53,7 +68,7 @@ const TypingBox = ({ last_final_text, onWpmChange, onAccuracyChange }) => {
         type="text"
         id="userInput"
         onKeyDown={getStartTime}
-        onKeyUp={(e) => getEndTime(e)}
+        onKeyUp={(e) => handlekeyUp(e)}
         placeholder="Re-type if failed,press <TAB> or <ESC> to reset"
       />
     </div>
