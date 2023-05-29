@@ -14,7 +14,7 @@ const Home = () => {
   const [repitator, setRepitator] = useState(3);
   const [combinator, setCombinator] = useState(2);
   const [chapter, setChapter] = useState(1);
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(300);
   const [fivewpm, setFiveWPM] = useState(0);
   const [lastText, setLastText] = useState("");
   const [result, setResult] = useState("");
